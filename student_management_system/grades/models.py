@@ -1,7 +1,7 @@
 from django.db import models
-from student_management_system.students.models import Student
-from student_management_system.courses.models import Course
-from student_management_system.users.models import User
+from students.models import Student
+from courses.models import Course
+from users.models import User
 
 
 # Create your models here.
@@ -11,3 +11,9 @@ class Grade(models.Model):
     grade = models.CharField(max_length=5)
     date = models.DateField(auto_now=True)
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': 'teacher'})
+
+    class Meta:
+        unique_together = ('student', 'course')
+
+    def __str__(self):
+        return f"{self.student.user.__str__()} - {self.course.__str__()}: {self.grade}"
