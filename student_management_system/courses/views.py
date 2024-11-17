@@ -3,15 +3,27 @@ from .models import Course, Enrollment
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from .serializers import CourseSerializer, EnrollmentSerializer
-from users.permissions import IsStudent, IsTeacher, IsAdmin  # Import custom permissions
+from users.permissions import IsStudent, IsTeacher, IsAdmin
+from django_filters import rest_framework as filters
 import logging
 logger = logging.getLogger(__name__)
+
+
+class CourseFilter(filters.FilterSet):
+    name = filters.CharFilter(lookup_expr='icontains')
+    instructor = filters.CharFilter(field_name='instructor__username', lookup_expr='icontains')
+
+    class Meta:
+        model = Course
+        fields = ['name', 'instructor']
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = CourseFilter
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:

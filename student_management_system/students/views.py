@@ -3,13 +3,25 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Student
 from .serializers import StudentSerializer
 from users.permissions import IsStudent, IsTeacher, IsAdmin
+from django_filters import rest_framework as filters
 import logging
 logger = logging.getLogger(__name__)
+
+
+class StudentFilter(filters.FilterSet):
+    name = filters.CharFilter(field_name='user__username', lookup_expr='icontains')
+    email = filters.CharFilter(field_name='user__email', lookup_expr='icontains')
+
+    class Meta:
+        model = Student
+        fields = ['name', 'email']  # Fields to filter by
 
 
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    filter_backends = [filters.DjangoFilterBackend]  # Enable filtering
+    filterset_class = StudentFilter  # Use the custom filter class
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
