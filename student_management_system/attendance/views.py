@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Attendance
 from .serializers import AttendanceSerializer
 from users.permissions import IsStudent, IsTeacher, IsAdmin
+import logging
+logger = logging.getLogger(__name__)
 
 
 class AttendanceViewSet(viewsets.ModelViewSet):
@@ -29,3 +31,23 @@ class AttendanceViewSet(viewsets.ModelViewSet):
         if not self.request.user.is_teacher() and not self.request.user.is_admin():
             raise PermissionDenied("You do not have permission to mark attendance.")
         serializer.save()
+
+    def list(self, request, *args, **kwargs):
+        logger.info("Attendance list accessed by: %s", request.user)
+        return super().list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        logger.info("Attendance details accessed for attendance ID: %s by: %s", kwargs['pk'], request.user)
+        return super().retrieve(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        logger.info("Attendance marking attempt by: %s", request.user)
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        logger.info("Attendance update attempt for attendance ID: %s by: %s", kwargs['pk'], request.user)
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        logger.warning("Attendance deletion attempt for attendance ID: %s by: %s", kwargs['pk'], request.user)
+        return super().destroy(request, *args, **kwargs)
