@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'djoser',
+    'drf_yasg',
 
     'users',
     'students',
