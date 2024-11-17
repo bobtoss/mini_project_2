@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .serializers import UserSerializer
-from .serializers import RegisterSerializer
+from .serializers import UserRegistrationSerializer
 import logging
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class UserDetailView(APIView):
 
 class RegisterView(APIView):
     def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
+        serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             logger.info("User %s created", user.username)
