@@ -1,0 +1,84 @@
+INFO 2024-11-17 18:55:38,638 autoreload Watching for file changes with StatReloader
+INFO 2024-11-17 18:55:53,429 basehttp "GET /swagger/ HTTP/1.1" 200 2232
+INFO 2024-11-17 18:55:53,848 basehttp "GET /swagger/?format=openapi HTTP/1.1" 200 20523
+INFO 2024-11-17 18:57:54,481 autoreload C:\Users\User\work\mini_project_2\student_management_system\student_management_system\settings.py changed, reloading.
+INFO 2024-11-17 18:57:56,037 autoreload Watching for file changes with StatReloader
+INFO 2024-11-17 18:58:54,151 autoreload C:\Users\User\work\mini_project_2\student_management_system\student_management_system\settings.py changed, reloading.
+INFO 2024-11-17 18:58:55,606 autoreload Watching for file changes with StatReloader
+INFO 2024-11-17 18:59:41,933 autoreload C:\Users\User\work\mini_project_2\student_management_system\users\urls.py changed, reloading.
+INFO 2024-11-17 18:59:43,436 autoreload Watching for file changes with StatReloader
+INFO 2024-11-17 19:00:21,009 autoreload C:\Users\User\work\mini_project_2\student_management_system\student_management_system\urls.py changed, reloading.
+INFO 2024-11-17 19:00:22,467 autoreload Watching for file changes with StatReloader
+INFO 2024-11-17 19:01:37,959 autoreload C:\Users\User\work\mini_project_2\student_management_system\users\views.py changed, reloading.
+INFO 2024-11-17 19:01:39,416 autoreload Watching for file changes with StatReloader
+INFO 2024-11-17 19:01:45,638 autoreload C:\Users\User\work\mini_project_2\student_management_system\users\views.py changed, reloading.
+INFO 2024-11-17 19:01:47,197 autoreload Watching for file changes with StatReloader
+INFO 2024-11-17 19:04:13,716 autoreload Watching for file changes with StatReloader
+INFO 2024-11-17 19:04:21,871 basehttp "GET /swagger/ HTTP/1.1" 200 2232
+ERROR 2024-11-17 19:04:22,856 log Internal Server Error: /swagger/
+Traceback (most recent call last):
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\views.py", line 96, in get
+    schema = generator.get_schema(request, self.public)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\generators.py", line 276, in get_schema
+    paths, prefix = self.get_paths(endpoints, components, request, public)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\generators.py", line 482, in get_paths
+    operation = self.get_operation(view, path, prefix, method, components, request)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\generators.py", line 524, in get_operation
+    operation = view_inspector.get_operation(operation_keys)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\view.py", line 45, in get_operation
+    responses = self.get_responses()
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\view.py", line 180, in get_responses
+    response_serializers = self.get_response_serializers()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\view.py", line 235, in get_response_serializers
+    responses = self.get_default_responses()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\view.py", line 211, in get_default_responses
+    default_schema = self.serializer_to_schema(default_schema) or ''
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\base.py", line 438, in serializer_to_schema
+    return self.probe_inspectors(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\base.py", line 110, in probe_inspectors
+    result = method(obj, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\field.py", line 42, in get_schema
+    return self.probe_field_inspectors(serializer, openapi.Schema, self.use_definitions)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\base.py", line 228, in probe_field_inspectors
+    return self.probe_inspectors(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\base.py", line 110, in probe_inspectors
+    result = method(obj, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\work\mini_project_2\env\Lib\site-packages\drf_yasg\inspectors\field.py", line 141, in field_to_swagger_object
+    raise SwaggerGenerationError(
+drf_yasg.errors.SwaggerGenerationError: Schema for <class 'users.serializers.UserSerializer'> would override distinct serializer <class 'djoser.serializers.UserSerializer'> because they implicitly share the same ref_name; explicitly set the ref_name attribute on both serializers' Meta classes
+ERROR 2024-11-17 19:04:22,860 basehttp "GET /swagger/?format=openapi HTTP/1.1" 500 192750

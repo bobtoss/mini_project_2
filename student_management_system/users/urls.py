@@ -9,4 +9,6 @@ from .views import UserDetailView, RegisterView
 urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
+    path('auth/jwt/create/', TokenObtainPairView.as_view(), name='jwt_create'),
+    path('auth/jwt/refresh/', TokenRefreshView.as_view(), name='jwt_refresh'),
 ]
