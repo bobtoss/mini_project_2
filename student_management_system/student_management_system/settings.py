@@ -88,8 +88,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Celery and Redis
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
@@ -112,6 +112,7 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
     'corsheaders',
+    'django_celery_beat',
 
     'users',
     'students',
@@ -180,6 +181,19 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+        'KEY_PREFIX': 'student_management'
+    }
+}
+
+CACHE_TTL = 60 * 15
 
 ROOT_URLCONF = 'student_management_system.urls'
 

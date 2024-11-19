@@ -1,11 +1,17 @@
 from rest_framework import viewsets
+from rest_framework.response import Response
+
 from .models import Course, Enrollment
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from .serializers import CourseSerializer, EnrollmentSerializer
 from users.permissions import IsStudent, IsTeacher, IsAdmin
 from django_filters import rest_framework as filters
+from django.core.cache import cache
 import logging
+
+from student_management_system.settings import CACHE_TTL
+
 logger = logging.getLogger(__name__)
 
 
@@ -45,8 +51,24 @@ class CourseViewSet(viewsets.ModelViewSet):
         serializer.save(instructor=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        logger.info("Course list accessed by: %s", request.user)
-        return super().list(request, *args, **kwargs)
+        user = request.user
+        cache_key = f"courses_{user.id}"
+        courses = cache.get(cache_key)
+        logger.info("Course list accessed by: %s", user)
+        if not courses:
+            # If not cached, query the database and cache the result
+            if user.is_teacher():
+                courses = Course.objects.filter(instructor=user)
+            elif user.is_student():
+                courses = Course.objects.filter(enrollment__student__user=user)
+            else:
+                courses = Course.objects.none()
+
+            serializer = CourseSerializer(courses, many=True)
+            cache.set(cache_key, serializer.data, timeout=CACHE_TTL)
+        else:
+            serializer = CourseSerializer(courses, many=True)
+        return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         logger.info("Course details accessed for course ID: %s by: %s", kwargs['pk'], request.user)
