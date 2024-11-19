@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 class GradeViewSet(viewsets.ModelViewSet):
-    queryset = Grade.objects.all()
+    queryset = Grade.objects.all().order_by('date')
     serializer_class = GradeSerializer
     permission_classes = [IsAuthenticated]
 
@@ -33,21 +33,21 @@ class GradeViewSet(viewsets.ModelViewSet):
         serializer.save(teacher=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        logger.info("Grade list accessed by: %s", request.user)
+        logger.info("Grade list accessed by: %s \n", request.user)
         return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
-        logger.info("Grade details accessed for grade ID: %s by: %s", kwargs['pk'], request.user)
+        logger.info("Grade details accessed for grade ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().retrieve(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        logger.info("Grade assignment attempt by: %s", request.user)
+        logger.info("Grade assignment attempt by: %s \n", request.user)
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        logger.info("Grade update attempt for grade ID: %s by: %s", kwargs['pk'], request.user)
+        logger.info("Grade update attempt for grade ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
-        logger.warning("Grade deletion attempt for grade ID: %s by: %s", kwargs['pk'], request.user)
+        logger.warning("Grade deletion attempt for grade ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().destroy(request, *args, **kwargs)

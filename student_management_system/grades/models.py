@@ -14,6 +14,8 @@ class Grade(models.Model):
 
     class Meta:
         unique_together = ('student', 'course')
+        ordering = ['date']
+
 
     def __str__(self):
         return f"{self.student.user.__str__()} - {self.course.__str__()}: {self.grade}"

@@ -54,7 +54,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         user = request.user
         cache_key = f"courses_{user.id}"
         courses = cache.get(cache_key)
-        logger.info("Course list accessed by: %s", user)
+        logger.info("Course list accessed by: %s \n", user)
         if not courses:
             # If not cached, query the database and cache the result
             if user.is_teacher():
@@ -71,19 +71,19 @@ class CourseViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
-        logger.info("Course details accessed for course ID: %s by: %s", kwargs['pk'], request.user)
+        logger.info("Course details accessed for course ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().retrieve(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        logger.info("Course creation attempt by: %s", request.user)
+        logger.info("Course creation attempt by: %s \n", request.user)
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        logger.info("Course update attempt for course ID: %s by: %s", kwargs['pk'], request.user)
+        logger.info("Course update attempt for course ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
-        logger.warning("Course deletion attempt for course ID: %s by: %s", kwargs['pk'], request.user)
+        logger.warning("Course deletion attempt for course ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().destroy(request, *args, **kwargs)
 
 
@@ -101,21 +101,21 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):
-        logger.info("Enrollment list accessed by: %s", request.user)
+        logger.info("Enrollment list accessed by: %s \n", request.user)
         return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
-        logger.info("Enrollment details accessed for course ID: %s by: %s", kwargs['pk'], request.user)
+        logger.info("Enrollment details accessed for course ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().retrieve(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        logger.info("Enrollment creation attempt by: %s", request.user)
+        logger.info("Enrollment creation attempt by: %s \n", request.user)
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        logger.info("Enrollment update attempt for course ID: %s by: %s", kwargs['pk'], request.user)
+        logger.info("Enrollment update attempt for course ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
-        logger.warning("Enrollment deletion attempt for course ID: %s by: %s", kwargs['pk'], request.user)
+        logger.warning("Enrollment deletion attempt for course ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().destroy(request, *args, **kwargs)

@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.core.cache import cache
 from .models import Student
+from rest_framework.filters import OrderingFilter
 from .serializers import StudentSerializer
 from users.permissions import IsStudent, IsTeacher, IsAdmin
 from django_filters import rest_framework as filters
@@ -23,10 +24,12 @@ class StudentFilter(filters.FilterSet):
 
 
 class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
+    queryset = Student.objects.all().order_by('registration_date')  # Add ordering here
     serializer_class = StudentSerializer
-    filter_backends = [filters.DjangoFilterBackend]  # Enable filtering
+    filter_backends = [OrderingFilter]  # Add the OrderingFilter
     filterset_class = StudentFilter  # Use the custom filter class
+    ordering_fields = ['registration_date', 'dob']  # Fields that can be used for ordering
+    ordering = ['registration_date']  # Default orderin
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
@@ -38,13 +41,13 @@ class StudentViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):
-        logger.info("Student list accessed by: %s", request.user)
+        logger.info("Student list accessed by: %s \n", request.user)
         return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
         student_id = kwargs['pk']
         cache_key = f"student_profile_{student_id}"
-        logger.info("Student details accessed for student ID: %s by: %s", kwargs['pk'], request.user)
+        logger.info("Student details accessed for student ID: %s by: %s \n", kwargs['pk'], request.user)
         student_data = cache.get(cache_key)
         if not student_data:
             # If not cached, query the database and cache the result
@@ -59,7 +62,7 @@ class StudentViewSet(viewsets.ModelViewSet):
         return Response(student_data)
 
     def create(self, request, *args, **kwargs):
-        logger.info("Student creation attempt by: %s", request.user)
+        logger.info("Student creation attempt by: %s \n", request.user)
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
@@ -67,9 +70,9 @@ class StudentViewSet(viewsets.ModelViewSet):
         student_id = kwargs['pk']
         cache_key = f"student_profile_{student_id}"
         cache.delete(cache_key)
-        logger.info("Student update attempt for student ID: %s by: %s", kwargs['pk'], request.user)
+        logger.info("Student update attempt for student ID: %s by: %s \n", kwargs['pk'], request.user)
         return response
 
     def destroy(self, request, *args, **kwargs):
-        logger.warning("Student deletion attempt for student ID: %s by: %s", kwargs['pk'], request.user)
+        logger.warning("Student deletion attempt for student ID: %s by: %s \n", kwargs['pk'], request.user)
         return super().destroy(request, *args, **kwargs)

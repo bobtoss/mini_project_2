@@ -12,6 +12,7 @@ class Attendance(models.Model):
 
     class Meta:
         unique_together = ('student', 'course', 'date')
+        ordering = ['date']
 
     def __str__(self):
         status = "Present" if self.status else "Absent"

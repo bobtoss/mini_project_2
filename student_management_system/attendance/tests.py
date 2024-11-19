@@ -11,8 +11,19 @@ User = get_user_model()
 class AttendanceTests(APITestCase):
 
     def setUp(self):
-        self.teacher = User.objects.create_user(username="teacher", email="teacher@example.com", password="password",
-                                                role="teacher")
+        self.teacher = User.objects.create_user(
+            username="teacher",
+            email="teacher@example.com",
+            password="password",
+            role="teacher"
+        )
+        response = self.client.post('/api/users/auth/jwt/create/', {
+            "username": "teacher",
+            "email": "teacher@example.com",
+            "password": "password"
+        })
+        self.token = response.data['access']
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
         self.student_user = User.objects.create_user(username="student", email="student@example.com",
                                                      password="password")
         self.student = Student.objects.create(user=self.student_user, dob="2000-01-01")
@@ -22,14 +33,14 @@ class AttendanceTests(APITestCase):
             "student": self.student.id,
             "course": self.course.id,
             "date": "2024-11-01",
-            "status": "Present"
+            "status": True,
         }
 
     def test_mark_attendance(self):
-        response = self.client.post('/api/v1/attendance/', self.attendance_data)
+        response = self.client.post('/api/attendance/', self.attendance_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn('status', response.data)
 
     def test_attendance_list(self):
-        response = self.client.get('/api/v1/attendance/')
+        response = self.client.get('/api/attendance/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

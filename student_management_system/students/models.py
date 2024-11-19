@@ -8,5 +8,8 @@ class Student(models.Model):
     dob = models.DateField()
     registration_date = models.DateField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['registration_date']  # Default ordering by registration_date
+
     def __str__(self):
         return self.user.__str__()

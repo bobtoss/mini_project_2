@@ -14,7 +14,7 @@ class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        logger.info("User get accessed by: %s", request.user)
+        logger.info("User get accessed by: %s \n", request.user)
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
