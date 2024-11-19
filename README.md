@@ -83,3 +83,12 @@
 1. **Run Unit Tests**:
    ```bash
     python manage.py test
+
+## Usage
+
+* API Documentation: Visit /swagger/ to see the API documentation.
+
+* Admin Panel: Access the admin panel at /admin/ to manage users and data.
+
+* User Registration and Authentication: Use the /api/v1/auth/ endpoints to register and log in users.
+
